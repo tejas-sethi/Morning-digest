@@ -125,7 +125,7 @@ guardrails:
   label_stretch_items: false   # blended in, unlabelled
 
 delivery:
-  page_url:"https://tejas-sethi.github.io/Morning-digest/"
+  page_url: "https://tejas-sethi.github.io/Morning-digest/"
 
 ai:
   model: claude-sonnet-4-6
