@@ -208,7 +208,8 @@ def send_push(config, slot_cfg, items):
     page_url = config["delivery"].get("page_url", "")
     headline = items[0]["title"] if items else "Your digest is ready"
     body = f"{len(items)} new items. Top: {headline}"
-    headers = {"Title": slot_cfg["label"], "Priority": "default", "Tags": "newspaper"}
+    safe_title = slot_cfg["label"].encode("ascii", "ignore").decode().strip() or "Digest"
+    headers = {"Title": safe_title, "Priority": "default", "Tags": "newspaper"}
     if page_url:
         headers["Click"] = page_url
     req = urllib.request.Request(
