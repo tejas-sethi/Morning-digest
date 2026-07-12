@@ -2,7 +2,6 @@
 # Daily Digest configuration — personalised for Tejas
 # Edit in GitHub (pencil icon), commit, applies next run.
 # ============================================================
-
 timezone: "Australia/Melbourne"
 
 # Interests in priority order (curation weights toward the top)
@@ -126,7 +125,7 @@ guardrails:
   label_stretch_items: false   # blended in, unlabelled
 
 delivery:
-  page_url: ""   # paste your GitHub Pages URL here after enabling Pages
+  page_url:"https://tejas-sethi.github.io/Morning-digest/"
 
 ai:
   model: claude-sonnet-4-6
