@@ -1,0 +1,59 @@
+name: Daily Digest Drip
+
+on:
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Which slot to send"
+        required: true
+        default: morning_7am
+  schedule:
+    # UTC times. Melbourne = UTC+10 (AEST) / UTC+11 (AEDT Oct-Apr: subtract 1h).
+    - cron: "0 21 * * *"   # 7:00am Melbourne  -> morning_7am
+    - cron: "0 0 * * *"    # 10:00am Melbourne -> mid_10am
+    - cron: "0 2 * * *"    # 12:00pm Melbourne -> noon_12pm
+    - cron: "0 4 * * *"    # 2:00pm Melbourne  -> arvo_2pm
+
+permissions:
+  contents: write          # lets the workflow commit the updated app page
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install feedparser pyyaml
+
+      - name: Work out which slot this run is
+        id: slot
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "slot=${{ github.event.inputs.slot }}" >> "$GITHUB_OUTPUT"
+          else
+            case "${{ github.event.schedule }}" in
+              "0 21 * * *") echo "slot=morning_7am" >> "$GITHUB_OUTPUT" ;;
+              "0 0 * * *")  echo "slot=mid_10am"    >> "$GITHUB_OUTPUT" ;;
+              "0 2 * * *")  echo "slot=noon_12pm"   >> "$GITHUB_OUTPUT" ;;
+              "0 4 * * *")  echo "slot=arvo_2pm"    >> "$GITHUB_OUTPUT" ;;
+            esac
+          fi
+
+      - name: Build digest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python digest.py --slot "${{ steps.slot.outputs.slot }}"
+
+      - name: Publish updated app page
+        run: |
+          git config user.name "digest-bot"
+          git config user.email "digest-bot@users.noreply.github.com"
+          git add docs/
+          git diff --cached --quiet || git commit -m "Digest: ${{ steps.slot.outputs.slot }}"
+          git push

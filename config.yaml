@@ -1,0 +1,133 @@
+# ============================================================
+# Daily Digest configuration — personalised for Tejas
+# Edit in GitHub (pencil icon), commit, applies next run.
+# ============================================================
+
+timezone: "Australia/Melbourne"
+
+# Interests in priority order (curation weights toward the top)
+interests:
+  - "Business, startups and investing - especially ASX, gold markets, and Australian small business"
+  - "Australian news, politics and world affairs"
+  - "Football: Manchester United above all - matches, transfers, tactics and analysis; plus major football news"
+  - "Apple - products, software, ecosystem news"
+  - "NDIS, disability sector, positive behaviour support and psychology research"
+  - "Python, web development and AI"
+
+exclusions:
+  - celebrity gossip
+  - graphic crime reporting
+
+sources:
+  # ---- core: business & investing (priority 1)
+  - name: ABC News Business
+    url: https://www.abc.net.au/news/feed/51892/rss.xml
+    mode: core
+  - name: SmartCompany
+    url: https://www.smartcompany.com.au/feed/
+    mode: core
+  - name: Kitco Gold News
+    url: https://news.kitco.com/rss/
+    mode: core
+  # ---- core: Aus & world news (priority 2)
+  - name: ABC News Australia
+    url: https://www.abc.net.au/news/feed/51120/rss.xml
+    mode: core
+  - name: The Conversation AU
+    url: https://theconversation.com/au/articles.atom
+    mode: core
+  # ---- core: football & Apple (priority 3)
+  - name: BBC Football
+    url: https://feeds.bbci.co.uk/sport/football/rss.xml
+    mode: core
+  - name: Manchester Evening News - Man United
+    url: https://www.manchestereveningnews.co.uk/all-about/manchester-united-fc?service=rss
+    mode: core
+  - name: 9to5Mac
+    url: https://9to5mac.com/feed/
+    mode: core
+  - name: MacRumors
+    url: https://feeds.macrumors.com/MacRumors-All
+    mode: core
+  # ---- core: sector & psych (priority 4)
+  - name: Probono Australia
+    url: https://probonoaustralia.com.au/feed/
+    mode: core
+  # ---- stretch: rotating anti-echo-chamber (blended, unlabelled)
+  - name: The Spectator Australia
+    url: https://www.spectator.com.au/feed/
+    mode: stretch
+  - name: Al Jazeera
+    url: https://www.aljazeera.com/xml/rss/all.xml
+    mode: stretch
+  - name: UnHerd
+    url: https://unherd.com/feed/
+    mode: stretch
+  # ---- humour: Aussie satire
+  - name: The Betoota Advocate
+    url: https://www.betootaadvocate.com/feed/
+    mode: humour
+  - name: The Shovel
+    url: https://theshovel.com.au/feed/
+    mode: humour
+
+slots:
+  morning_7am:
+    label: "☀️ Morning Briefing"
+    items_core: 4
+    items_stretch: 1
+    items_humour: 0
+    theme: >
+      Lead with business, markets and investing (ASX, gold), then the most
+      important Australian and world news. Include any overnight Manchester
+      United results - UK matches finish overnight Melbourne time, so match
+      outcomes belong here. Concise and energising.
+  mid_10am:
+    label: "🔍 Deep Read"
+    items_core: 2
+    items_stretch: 1
+    items_humour: 0
+    theme: >
+      One or two longer-form, thought-provoking pieces on business,
+      economics, politics or psychology. Weave the stretch item in
+      naturally without flagging it as different.
+  noon_12pm:
+    label: "📈 Midday: Markets, United & Apple"
+    items_core: 3
+    items_stretch: 0
+    items_humour: 0
+    theme: >
+      Midday check-in: ASX/gold movements, Manchester United news
+      (transfers, team news, analysis) and any notable Apple developments.
+  arvo_2pm:
+    label: "😄 Afternoon Wind-down"
+    items_core: 1
+    items_stretch: 0
+    items_humour: 3
+    theme: >
+      Aussie satire to end the feed on a laugh, plus one genuinely
+      interesting light story. Nothing heavy.
+
+# Weekend: one relaxed morning digest only (the other three slots skip)
+weekend:
+  mode: morning_only
+  label: "☕ Weekend Digest"
+  items_core: 5
+  items_stretch: 1
+  items_humour: 2
+  theme: >
+    Relaxed weekend read: Manchester United match previews/results first
+    (weekend is match time), the week's best business and news pieces,
+    and a couple of laughs. Unhurried tone.
+
+guardrails:
+  include_links: true
+  max_daily_items: 15
+  label_stretch_items: false   # blended in, unlabelled
+
+delivery:
+  page_url: ""   # paste your GitHub Pages URL here after enabling Pages
+
+ai:
+  model: claude-sonnet-4-6
+  max_candidates_per_feed: 10

@@ -1,0 +1,9 @@
+{
+  "name": "Daily Digest",
+  "short_name": "Digest",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#FDFBF4",
+  "theme_color": "#2E0920",
+  "icons": []
+}
