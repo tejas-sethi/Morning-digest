@@ -1,24 +1,51 @@
 # ============================================================
-# Daily Digest configuration — personalised for Tejas
+# Daily Digest configuration — v2, goal-biased
 # Edit in GitHub (pencil icon), commit, applies next run.
 # ============================================================
+
 timezone: "Australia/Melbourne"
 
 # Interests in priority order (curation weights toward the top)
 interests:
-  - "Business, startups and investing - especially ASX, gold markets, and Australian small business"
-  - "Australian news, politics and world affairs"
-  - "Football: Manchester United above all - matches, transfers, tactics and analysis; plus major football news"
-  - "Apple - products, software, ecosystem news"
-  - "NDIS, disability sector, positive behaviour support and psychology research"
-  - "Python, web development and AI"
+  - "Melbourne property/housing market - actively house-hunting, buying by October/November 2026"
+  - "NDIS registration, positive behaviour support and disability sector policy - launching a PBS business, NDIS Safeguard and Quality portal application due end of this month"
+  - "Business, startups and investing - ASX, gold markets (with a US-policy lens on gold price), small business"
+  - "Football: Premier League, Champions League, FIFA World Cup, and all major transfer window news (transfer market currently in its final stages) - Manchester United especially, with Fabrizio Romano as the trusted verification source"
+  - "AI and semiconductors - new models, practical tips and tricks for using AI effectively, and general tech"
+  - "Vibe coding / personal software projects - project ideas, tools, learning GitHub and basic bookkeeping"
+  - "Australian politics, federal budget and government finance"
+  - "US policy and geopolitics, especially where it affects markets and gold"
+  - "Fitness and running - training toward a 5km run and body composition goal by December"
+  - "Mythological fiction and fantasy reading - currently partway through Lord of the Rings"
+  - "New cars in the Australian market - used to be really into cars, still like to stay across releases, with a bigger emphasis on EVs"
+  - "Light daily astrology/numerology in the style of Rise with Rishabh (panchang-style, entertaining not serious)"
 
 exclusions:
   - celebrity gossip
   - graphic crime reporting
+  - far-right commentary beyond basic factual polling numbers - no amplification of rhetoric
+  - stories centred on racism toward Indians or anti-immigrant hate, beyond a factual headline-level mention if genuinely major news
+
+# Personal goals with target dates. The AI curator uses these to weight
+# coverage more heavily as deadlines approach - e.g. more housing content
+# as October nears, more NDIS content approaching end-of-month, fitness
+# content ramping toward December.
+goals:
+  - name: "NDIS Safeguard and Quality portal application"
+    deadline: "2026-07-31"
+    note: "Policies and procedures need to be finalised and submitted."
+  - name: "Buy first home in Melbourne"
+    deadline: "2026-11-01"
+    note: "Watching the Melbourne housing market closely in the lead-up."
+  - name: "Fitness: visible abs and comfortable 5km run"
+    deadline: "2026-12-31"
+    note: "Currently in weight-loss and injury-recovery phase; workouts, nutrition, running."
+  - name: "Start working in Lumen (NDIS PBS business)"
+    deadline: "2027-01-15"
+    note: "Business launch follows the NDIS registration and October audit window."
 
 sources:
-  # ---- core: business & investing (priority 1)
+  # ---- core: business & investing
   - name: ABC News Business
     url: https://www.abc.net.au/news/feed/51892/rss.xml
     mode: core
@@ -28,41 +55,64 @@ sources:
   - name: Kitco Gold News
     url: https://news.kitco.com/rss/
     mode: core
-  # ---- core: Aus & world news (priority 2)
-  - name: ABC News Australia
+  # ---- core: Melbourne housing (goal-linked, high priority near Oct/Nov)
+  - name: ABC News Australia (property tag via search feed)
     url: https://www.abc.net.au/news/feed/51120/rss.xml
     mode: core
   - name: The Conversation AU
     url: https://theconversation.com/au/articles.atom
     mode: core
-  # ---- core: football & Apple (priority 3)
+  # ---- core: Aus & world news
+  - name: The Guardian Australia
+    url: https://www.theguardian.com/australia-news/rss
+    mode: core
+  # ---- core: football
   - name: BBC Football
     url: https://feeds.bbci.co.uk/sport/football/rss.xml
+    mode: core
+  - name: The Guardian Football
+    url: https://www.theguardian.com/football/rss
     mode: core
   - name: Manchester Evening News - Man United
     url: https://www.manchestereveningnews.co.uk/all-about/manchester-united-fc?service=rss
     mode: core
+  # ---- core: AI/tech
   - name: 9to5Mac
     url: https://9to5mac.com/feed/
     mode: core
   - name: MacRumors
     url: https://feeds.macrumors.com/MacRumors-All
     mode: core
-  # ---- core: sector & psych (priority 4)
+  # ---- core: cars & EVs (Australian market)
+  - name: CarExpert
+    url: https://www.carexpert.com.au/feed
+    mode: core
+  - name: Budget Direct
+    url: https://www.budgetdirect.com.au/blog/feed/
+    mode: core
+  # ---- core: NDIS/sector
   - name: Probono Australia
     url: https://probonoaustralia.com.au/feed/
     mode: core
-  # ---- stretch: rotating anti-echo-chamber (blended, unlabelled)
+  # ---- trusted core: ABC (repeated tag for weighting clarity)
+  - name: ABC News Australia
+    url: https://www.abc.net.au/news/feed/51120/rss.xml
+    mode: core
+  # ---- fact_check: read, but flag for verification rather than take at face value
+  - name: Herald Sun
+    url: https://www.heraldsun.com.au/feed/
+    mode: fact_check
+  # ---- stretch: rotating anti-echo-chamber, blended unlabelled, moderate not far-right
   - name: The Spectator Australia
     url: https://www.spectator.com.au/feed/
-    mode: stretch
-  - name: Al Jazeera
-    url: https://www.aljazeera.com/xml/rss/all.xml
     mode: stretch
   - name: UnHerd
     url: https://unherd.com/feed/
     mode: stretch
-  # ---- humour: Aussie satire
+  - name: TLDR News
+    url: https://tldr.tech/rss
+    mode: stretch
+  # ---- humour: Aussie satire + light astrology flavour
   - name: The Betoota Advocate
     url: https://www.betootaadvocate.com/feed/
     mode: humour
@@ -77,37 +127,83 @@ slots:
     items_stretch: 1
     items_humour: 0
     theme: >
-      Lead with business, markets and investing (ASX, gold), then the most
-      important Australian and world news. Include any overnight Manchester
-      United results - UK matches finish overnight Melbourne time, so match
-      outcomes belong here. Concise and energising.
-  mid_10am:
-    label: "🔍 Deep Read"
-    items_core: 2
-    items_stretch: 1
-    items_humour: 0
-    theme: >
-      One or two longer-form, thought-provoking pieces on business,
-      economics, politics or psychology. Weave the stretch item in
-      naturally without flagging it as different.
-  noon_12pm:
-    label: "📈 Midday: Markets, United & Apple"
+      Lead with anything goal-critical (housing market movement, NDIS
+      regulatory news, ASX/gold), then top Australian and world news.
+      Include any overnight football results, especially Manchester United.
+      Weight coverage toward goals whose deadline is under 30 days away.
+      Concise and energising - reader has room to be stretched today.
+  mid_9am:
+    label: "🏠 Mid-morning Focus"
     items_core: 3
     items_stretch: 0
     items_humour: 0
     theme: >
-      Midday check-in: ASX/gold movements, Manchester United news
-      (transfers, team news, analysis) and any notable Apple developments.
-  arvo_2pm:
-    label: "😄 Afternoon Wind-down"
+      Deeper focus on whichever active goal is most time-critical right
+      now given today's date vs the goal deadlines provided - Melbourne
+      housing market data, NDIS/disability sector regulatory updates, or
+      business news, depending on proximity to deadline.
+  late_11am:
+    label: "🤖 Tech & AI Check-in"
+    items_core: 2
+    items_stretch: 1
+    items_humour: 0
+    theme: >
+      AI/semiconductor news, practical AI usage tips, and any GitHub or
+      basic bookkeeping learning resources worth surfacing. Include one
+      vibe-coding project idea if a good one appears in sources or can be
+      reasonably suggested from current tech trends. Also include any
+      notable new car releases in the Australian market, with a bigger
+      emphasis on EVs, when available from CarExpert or Budget Direct.
+      Blend a stretch item in naturally.
+  midday_1pm:
+    label: "📈 Markets & Transfers"
+    items_core: 4
+    items_stretch: 0
+    items_humour: 0
+    theme: >
+      ASX/gold movements with a note on any US policy driving gold price.
+      The transfer window is entering its final stages - cover the biggest
+      transfer moves across the Premier League and Champions League broadly
+      (not just Manchester United, though always include United news when
+      there is any), prioritising deals that are close to completion or
+      confirmed. Treat Fabrizio Romano as the trusted verification source:
+      anything he has confirmed can be reported as reliable; rumours only
+      sourced elsewhere should be flagged as speculative.
+  arvo_3pm:
+    label: "🏛️ Politics & World"
+    items_core: 3
+    items_stretch: 1
+    items_humour: 0
+    theme: >
+      Australian politics and federal budget/finance, US policy and
+      geopolitics. Far-right coverage limited strictly to factual polling
+      or election results - no amplification of rhetoric or incidents.
+      Weave the stretch item in unlabelled.
+  evening_6pm:
+    label: "😄 Evening Wind-down"
     items_core: 1
     items_stretch: 0
     items_humour: 3
     theme: >
-      Aussie satire to end the feed on a laugh, plus one genuinely
-      interesting light story. Nothing heavy.
+      Aussie satire, a light mythological-fiction/fantasy book note or
+      reading-world item if available (LOTR-adjacent), and a short
+      entertaining daily astrology/numerology flavour item in the spirit
+      of a panchang-style daily reading. Nothing heavy. End the day light.
 
-# Weekend: one relaxed morning digest only (the other three slots skip)
+# Sunday-only bonus slot: connects the week's news back to active goals.
+weekly_checkin:
+  enabled: true
+  label: "🎯 Weekly Goal Check-in"
+  items_core: 5
+  theme: >
+    A goal-focused weekly wrap. For each active goal in the goals list,
+    surface anything from this week relevant to it: Melbourne housing
+    market movement, NDIS/disability sector regulatory news, ASX/gold
+    performance, and any fitness/running content worth a nudge. Note how
+    many days remain until each goal's deadline. Encouraging, practical
+    tone - this is a compass check, not a scold.
+
+# Weekend: one relaxed morning digest only (other daily slots skip)
 weekend:
   mode: morning_only
   label: "☕ Weekend Digest"
@@ -116,13 +212,17 @@ weekend:
   items_humour: 2
   theme: >
     Relaxed weekend read: Manchester United match previews/results first
-    (weekend is match time), the week's best business and news pieces,
-    and a couple of laughs. Unhurried tone.
+    (weekend is match time), the biggest transfer window moves across
+    the Premier League and Champions League as the window nears its close
+    (Fabrizio Romano as the trusted source for confirmations), the week's
+    best business/housing/NDIS reads, and a couple of laughs. Unhurried
+    tone.
 
 guardrails:
   include_links: true
-  max_daily_items: 15
+  max_daily_items: 20
   label_stretch_items: false   # blended in, unlabelled
+  label_fact_check_items: true # fact_check-mode items get a verification note
 
 delivery:
   page_url: "https://tejas-sethi.github.io/Morning-digest/"
