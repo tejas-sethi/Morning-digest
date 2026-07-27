@@ -206,8 +206,12 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   .slot summary::after {{ content: "  ▾"; color: #B84483; font-size: 14px; }}
   .slot[open] summary::after {{ content: "  ▴"; }}
   .item {{ display: flex; gap: 12px; margin: 16px 0; align-items: flex-start; }}
-  .item img {{ width: 84px; height: 84px; object-fit: cover; border-radius: 8px;
-              flex-shrink: 0; background: #eee; }}
+  .item .thumb {{ width: 84px; height: 84px; min-width: 84px; max-width: 84px;
+                 border-radius: 8px; overflow: hidden; flex-shrink: 0;
+                 background: #eee; box-sizing: border-box; }}
+  .item .thumb img {{ width: 100% !important; height: 100% !important;
+                      max-width: none !important; object-fit: cover;
+                      display: block; }}
   .item .body {{ flex: 1; min-width: 0; }}
   .item .t {{ font-weight: 600; font-size: 16px; }}
   .item .t a {{ color: #8B2D62; text-decoration: none; }}
@@ -238,7 +242,10 @@ def render_slot_html(config, slot_id, slot_cfg, items):
             title = f'<a href="{html.escape(it["link"])}">{title}</a>'
         img_html = ""
         if it.get("image"):
-            img_html = f'<img src="{html.escape(it["image"])}" alt="" loading="lazy">'
+            img_html = (
+                f'<div class="thumb"><img src="{html.escape(it["image"])}" '
+                f'alt="" width="84" height="84" loading="lazy"></div>'
+            )
         parts.append(
             f'<div class="{cls}">{img_html}'
             f'<div class="body"><div class="t">{title}</div>'
