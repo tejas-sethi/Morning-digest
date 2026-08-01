@@ -8,14 +8,17 @@ on:
         required: true
         default: morning_7am
   schedule:
-    # UTC times. Melbourne = UTC+10 (AEST) / UTC+11 (AEDT Oct-Apr: subtract 1h).
+    # UTC times. Melbourne = UTC+10 (AEST) / UTC+11 (AEDT Oct-Apr: subtract 1h from each).
     - cron: "0 21 * * *"   # 7:00am Melbourne  -> morning_7am
-    - cron: "0 0 * * *"    # 10:00am Melbourne -> mid_10am
-    - cron: "0 2 * * *"    # 12:00pm Melbourne -> noon_12pm
-    - cron: "0 4 * * *"    # 2:00pm Melbourne  -> arvo_2pm
+    - cron: "0 23 * * *"   # 9:00am Melbourne  -> mid_9am
+    - cron: "0 1 * * *"   # 11:00am Melbourne -> late_11am
+    - cron: "0 3 * * *"   # 1:00pm Melbourne  -> midday_1pm
+    - cron: "0 5 * * *"   # 3:00pm Melbourne  -> arvo_3pm
+    - cron: "0 8 * * *"   # 6:00pm Melbourne  -> evening_6pm
+    - cron: "0 6 * * 0"   # 4:00pm Melbourne, Sundays only -> weekly_checkin
 
 permissions:
-  contents: write          # lets the workflow commit the updated app page
+  contents: write
 
 jobs:
   send:
@@ -37,10 +40,13 @@ jobs:
             echo "slot=${{ github.event.inputs.slot }}" >> "$GITHUB_OUTPUT"
           else
             case "${{ github.event.schedule }}" in
-              "0 21 * * *") echo "slot=morning_7am" >> "$GITHUB_OUTPUT" ;;
-              "0 0 * * *")  echo "slot=mid_10am"    >> "$GITHUB_OUTPUT" ;;
-              "0 2 * * *")  echo "slot=noon_12pm"   >> "$GITHUB_OUTPUT" ;;
-              "0 4 * * *")  echo "slot=arvo_2pm"    >> "$GITHUB_OUTPUT" ;;
+              "0 21 * * *") echo "slot=morning_7am"     >> "$GITHUB_OUTPUT" ;;
+              "0 23 * * *") echo "slot=mid_9am"         >> "$GITHUB_OUTPUT" ;;
+              "0 1 * * *") echo "slot=late_11am"       >> "$GITHUB_OUTPUT" ;;
+              "0 3 * * *") echo "slot=midday_1pm"      >> "$GITHUB_OUTPUT" ;;
+              "0 5 * * *") echo "slot=arvo_3pm"        >> "$GITHUB_OUTPUT" ;;
+              "0 8 * * *") echo "slot=evening_6pm"     >> "$GITHUB_OUTPUT" ;;
+              "0 6 * * 0") echo "slot=weekly_checkin"  >> "$GITHUB_OUTPUT" ;;
             esac
           fi
 
