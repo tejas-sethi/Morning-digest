@@ -61,5 +61,10 @@ jobs:
           git config user.name "digest-bot"
           git config user.email "digest-bot@users.noreply.github.com"
           git add docs/
-          git diff --cached --quiet || git commit -m "Digest: ${{ steps.slot.outputs.slot }}"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "Digest: ${{ steps.slot.outputs.slot }}"
+            git pull --rebase --autostash origin main
+            git push
+          fi
